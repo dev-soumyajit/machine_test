@@ -2,21 +2,18 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import {
   Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
+  SelectTrigger
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bath, Bed, Ruler, Car, Building, Phone } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Bath, Bed, Building, Phone } from "lucide-react";
 
 export const RealEstatePage = () => {
   return (
     <div className="min-h-screen bg-black">
-      // Hero Section
+      {/* Hero Section */}
       {/* <div className='h-4 bg-gradient-to-b fr'></div> */}
       <div className="bg-black px-6 py-12">
         <div className="max-w-6xl mx-auto">
@@ -26,13 +23,14 @@ export const RealEstatePage = () => {
                 Featured Properties
               </h2>
               <p className="text-gray-300 text-sm max-w-2xl">
-                Explore our handpicked selsction of featured properties.Eeach
-                listing offers a glimps into......
+                Explore our handpicked selection of featured properties. Each
+                listing offers a glimpse into......
               </p>
             </div>
             <Button>View All Properties</Button>
           </div>
-          //property
+
+          {/* Property */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="bg-black border-gray-900 overflow-hidden">
               <div className="relative">
@@ -165,12 +163,13 @@ export const RealEstatePage = () => {
           </div>
         </div>
       </div>
-      //contact from
+
+      {/* Contact Form */}
       <div className="bg-gray-black px-6 py-6">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <h2 className="text-white text-3xl font-bold mb-3">
-              Let's Make it happen
+              Let&apos;s Make it happen
             </h2>
             <p className="text-gray-300 text-sm max-w-2xl">
               Ready to find your dream home? Contact us today to schedule a
@@ -182,7 +181,7 @@ export const RealEstatePage = () => {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="text-white text-sm, font-medium block mb-2">
+                <label className="text-white text-sm font-medium block mb-2">
                   First name
                 </label>
                 <input
@@ -192,7 +191,7 @@ export const RealEstatePage = () => {
                 />
               </div>
               <div>
-                <label className="text-white text-sm, font-medium block mb-2">
+                <label className="text-white text-sm font-medium block mb-2">
                   Last name
                 </label>
                 <input
@@ -202,7 +201,7 @@ export const RealEstatePage = () => {
                 />
               </div>
               <div>
-                <label className="text-white text-sm, font-medium block mb-2">
+                <label className="text-white text-sm font-medium block mb-2">
                   Enter your Email
                 </label>
                 <input
@@ -212,7 +211,7 @@ export const RealEstatePage = () => {
                 />
               </div>
               <div>
-                <label className="text-white text-sm, font-medium block mb-2">
+                <label className="text-white text-sm font-medium block mb-2">
                   Phone Number
                 </label>
                 <input
@@ -226,16 +225,12 @@ export const RealEstatePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="text-white text-sm font-medium block mb-2">
-                  Preferrend Location
+                  Preferred Location
                 </label>
                 <Select>
                   <SelectTrigger className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <span className="text-gray-400">Select location</span>
                   </SelectTrigger>
-                  {/* <SelectContent>
-                                <SelectItem value="new-york">New York</SelectItem>
-                                <SelectItem value="los-angeles">Los Angeles</SelectItem>
-                            <SelectContent/>  */}
                 </Select>
               </div>
               <div>
@@ -285,7 +280,7 @@ export const RealEstatePage = () => {
               </div>
               <div>
                 <label className="text-white text-sm font-medium block mb-2">
-                  Prefered Contact Method
+                  Preferred Contact Method
                 </label>
                 <div className="flex gap-4">
                   <div className="flex items-center space-x-2">
