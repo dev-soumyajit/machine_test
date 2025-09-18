@@ -1,5 +1,7 @@
+
+"use client";
 import React from "react";
-import Image from "next/image"; // Import Image from next/image
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,14 +13,71 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bath, Bed, Building, Phone } from "lucide-react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+
+const formSchema = z.object({
+  firstName: z.string().min(1, "First name is required").max(50, "First name must be 50 characters or less"),
+  lastName: z.string().min(1, "Last name is required").max(50, "Last name must be 50 characters or less"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+  preferredLocation: z.string().min(1, "Please select a location"),
+  propertyType: z.string().min(1, "Please select a property type"),
+  bathrooms: z.string().min(1, "Please select number of bathrooms"),
+  bedrooms: z.string().min(1, "Please select number of bedrooms"),
+  budget: z.string().min(1, "Please select a budget"),
+  contactMethod: z.boolean().refine((val) => val === true, {
+    message: "You must select the contact method",
+  }),
+  message: z.string().max(500, "Message must be 500 characters or less").optional(),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "You must agree to the Terms of Use and Privacy Policy",
+  }),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function RealEstatePage() {
+  
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      preferredLocation: "",
+      propertyType: "",
+      bathrooms: "",
+      bedrooms: "",
+      budget: "",
+      contactMethod: false,
+      message: "",
+      terms: false,
+    },
+  });
+
+ 
+  const onSubmit = (data: FormData) => {
+    console.log("Form submitted with data:", data);
+   
+  };
+
   return (
     <div className="min-h-screen bg-gray-900">
     
       <div className="bg-gray-900 px-6 py-16">
         <div className="max-w-6xl mx-auto">
-        
+          {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-start mb-12">
             <div>
               <h2 className="text-white text-4xl font-bold mb-4">
@@ -35,9 +94,9 @@ export default function RealEstatePage() {
             </Button>
           </div>
 
-          
+        
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           
+            {/* Property Card 1 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -46,7 +105,7 @@ export default function RealEstatePage() {
                   width={2075}
                   height={600}
                   className="w-full h-48 object-cover"
-                  unoptimized // Use unoptimized for external images
+                  unoptimized
                 />
               </div>
               <CardContent className="p-6">
@@ -86,7 +145,7 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
-            
+            {/* Property Card 2 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -135,7 +194,7 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
-           
+            {/* Property Card 3 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -187,7 +246,7 @@ export default function RealEstatePage() {
         </div>
       </div>
 
-     
+      {/* Section 2*/}
       <div className="bg-gray-900 px-6 py-16 border-t border-gray-700">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
@@ -202,251 +261,239 @@ export default function RealEstatePage() {
             </p>
           </div>
 
-        
+          {/* Form Card */}
           <Card className="bg-gray-800 border-gray-700 p-8">
             <CardContent className="p-0">
-              <div className="space-y-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 {/* First Row - Personal Info */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       First Name
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Enter First Name"
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    <Controller
+                      name="firstName"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="text"
+                          placeholder="Enter First Name"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      )}
                     />
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Last Name
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Enter Last Name"
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    <Controller
+                      name="lastName"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="text"
+                          placeholder="Enter Last Name"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      )}
                     />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Email
                     </label>
-                    <input
-                      type="email"
-                      placeholder="Enter your Email"
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="email"
+                          placeholder="Enter your Email"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      )}
                     />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Phone
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Enter Phone Number"
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    <Controller
+                      name="phone"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          type="text"
+                          placeholder="Enter Phone Number"
+                          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      )}
                     />
+                    {errors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                    )}
                   </div>
                 </div>
 
-               
+                
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Preferred Location
                     </label>
-                    <Select>
-                      <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <SelectValue
-                          placeholder="Select Location"
-                          className="text-gray-500"
-                        />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-700 border-gray-600">
-                        <SelectItem
-                          value="new-york"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          New York
-                        </SelectItem>
-                        <SelectItem
-                          value="los-angeles"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Los Angeles
-                        </SelectItem>
-                        <SelectItem
-                          value="miami"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Miami
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      name="preferredLocation"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="Select Location" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-700 border-gray-600">
+                            <SelectItem value="new-york">New York</SelectItem>
+                            <SelectItem value="los-angeles">Los Angeles</SelectItem>
+                            <SelectItem value="miami">Miami</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.preferredLocation && (
+                      <p className="text-red-500 text-sm mt-1">{errors.preferredLocation.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Property Type
                     </label>
-                    <Select>
-                      <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <SelectValue
-                          placeholder="Select Property Type"
-                          className="text-gray-500"
-                        />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-700 border-gray-600">
-                        <SelectItem
-                          value="villa"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Villa
-                        </SelectItem>
-                        <SelectItem
-                          value="apartment"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Apartment
-                        </SelectItem>
-                        <SelectItem
-                          value="townhouse"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Townhouse
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      name="propertyType"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="Select Property Type" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-700 border-gray-600">
+                            <SelectItem value="villa">Villa</SelectItem>
+                            <SelectItem value="apartment">Apartment</SelectItem>
+                            <SelectItem value="townhouse">Townhouse</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.propertyType && (
+                      <p className="text-red-500 text-sm mt-1">{errors.propertyType.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       No. of Bathrooms
                     </label>
-                    <Select>
-                      <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <SelectValue
-                          placeholder="Select No of Bathroom"
-                          className="text-gray-500"
-                        />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-700 border-gray-600">
-                        <SelectItem
-                          value="1"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          1 Bathroom
-                        </SelectItem>
-                        <SelectItem
-                          value="2"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          2 Bathrooms
-                        </SelectItem>
-                        <SelectItem
-                          value="3"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          3 Bathrooms
-                        </SelectItem>
-                        <SelectItem
-                          value="4"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          4+ Bathrooms
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      name="bathrooms"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="Select No of Bathroom" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-700 border-gray-600">
+                            <SelectItem value="1">1 Bathroom</SelectItem>
+                            <SelectItem value="2">2 Bathrooms</SelectItem>
+                            <SelectItem value="3">3 Bathrooms</SelectItem>
+                            <SelectItem value="4">4+ Bathrooms</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.bathrooms && (
+                      <p className="text-red-500 text-sm mt-1">{errors.bathrooms.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       No. of Bedrooms
                     </label>
-                    <Select>
-                      <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <SelectValue
-                          placeholder="Select No of Bedrooms"
-                          className="text-gray-500"
-                        />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-700 border-gray-600">
-                        <SelectItem
-                          value="1"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          1 Bedroom
-                        </SelectItem>
-                        <SelectItem
-                          value="2"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          2 Bedrooms
-                        </SelectItem>
-                        <SelectItem
-                          value="3"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          3 Bedrooms
-                        </SelectItem>
-                        <SelectItem
-                          value="4"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          4+ Bedrooms
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      name="bedrooms"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="Select No of Bedrooms" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-700 border-gray-600">
+                            <SelectItem value="1">1 Bedroom</SelectItem>
+                            <SelectItem value="2">2 Bedrooms</SelectItem>
+                            <SelectItem value="3">3 Bedrooms</SelectItem>
+                            <SelectItem value="4">4+ Bedrooms</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.bedrooms && (
+                      <p className="text-red-500 text-sm mt-1">{errors.bedrooms.message}</p>
+                    )}
                   </div>
                 </div>
 
-              
+               
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Budget
                     </label>
-                    <Select>
-                      <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <SelectValue
-                          placeholder="Select Budget"
-                          className="text-gray-500"
-                        />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-700 border-gray-600">
-                        <SelectItem
-                          value="under-500k"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Under $500K
-                        </SelectItem>
-                        <SelectItem
-                          value="500k-1m"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          $500K - $1M
-                        </SelectItem>
-                        <SelectItem
-                          value="1m-2m"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          $1M - $2M
-                        </SelectItem>
-                        <SelectItem
-                          value="over-2m"
-                          className="text-white hover:bg-gray-600"
-                        >
-                          Over $2M
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Controller
+                      name="budget"
+                      control={control}
+                      render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="Select Budget" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-700 border-gray-600">
+                            <SelectItem value="under-500k">Under $500K</SelectItem>
+                            <SelectItem value="500k-1m">$500K - $1M</SelectItem>
+                            <SelectItem value="1m-2m">$1M - $2M</SelectItem>
+                            <SelectItem value="over-2m">Over $2M</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    {errors.budget && (
+                      <p className="text-red-500 text-sm mt-1">{errors.budget.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
                       Preferred Contact Method
                     </label>
                     <div className="flex items-center space-x-3 pt-2">
-                      <Checkbox
-                        id="call"
-                        className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                      <Controller
+                        name="contactMethod"
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox
+                            id="call"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                          />
+                        )}
                       />
                       <Phone size={16} className="text-gray-400" />
                       <label
@@ -456,27 +503,48 @@ export default function RealEstatePage() {
                         Call
                       </label>
                     </div>
+                    {errors.contactMethod && (
+                      <p className="text-red-500 text-sm mt-1">{errors.contactMethod.message}</p>
+                    )}
                   </div>
                 </div>
 
-                
+               
                 <div>
                   <label className="text-white text-sm font-medium block mb-3">
                     Message
                   </label>
-                  <textarea
-                    placeholder="Enter your Message here.."
-                    rows={4}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  <Controller
+                    name="message"
+                    control={control}
+                    render={({ field }) => (
+                      <textarea
+                        {...field}
+                        placeholder="Enter your Message here.."
+                        rows={4}
+                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                      />
+                    )}
                   />
+                  {errors.message && (
+                    <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                  )}
                 </div>
 
-                
+               
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex items-start space-x-3">
-                    <Checkbox
-                      id="terms"
-                      className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-0.5"
+                    <Controller
+                      name="terms"
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          id="terms"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="border-gray-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-0.5"
+                        />
+                      )}
                     />
                     <label
                       htmlFor="terms"
@@ -485,11 +553,17 @@ export default function RealEstatePage() {
                       I agree with Terms of Use and Privacy Policy
                     </label>
                   </div>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium">
+                  {errors.terms && (
+                    <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>
+                  )}
+                  <Button
+                    type="submit"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium"
+                  >
                     Send Your Message
                   </Button>
                 </div>
-              </div>
+              </form>
             </CardContent>
           </Card>
         </div>
