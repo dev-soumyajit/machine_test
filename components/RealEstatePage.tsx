@@ -15,10 +15,10 @@ import { Bath, Bed, Building, Phone } from "lucide-react";
 export default function RealEstatePage() {
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Featured Properties Section */}
+    
       <div className="bg-gray-900 px-6 py-16">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
+        
           <div className="flex flex-col md:flex-row justify-between items-start mb-12">
             <div>
               <h2 className="text-white text-4xl font-bold mb-4">
@@ -35,9 +35,9 @@ export default function RealEstatePage() {
             </Button>
           </div>
 
-          {/* Property Cards Grid */}
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Property Card 1 */}
+           
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -86,7 +86,7 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
-            {/* Property Card 2 */}
+            
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -135,7 +135,7 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
-            {/* Property Card 3 */}
+           
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
                 <Image
@@ -187,7 +187,7 @@ export default function RealEstatePage() {
         </div>
       </div>
 
-      {/* Let's Make it Happen Section */}
+     
       <div className="bg-gray-900 px-6 py-16 border-t border-gray-700">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
@@ -202,7 +202,7 @@ export default function RealEstatePage() {
             </p>
           </div>
 
-          {/* Form Card */}
+        
           <Card className="bg-gray-800 border-gray-700 p-8">
             <CardContent className="p-0">
               <div className="space-y-8">
@@ -250,7 +250,7 @@ export default function RealEstatePage() {
                   </div>
                 </div>
 
-                {/* Second Row - Property Details */}
+               
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
@@ -398,7 +398,7 @@ export default function RealEstatePage() {
                   </div>
                 </div>
 
-                {/* Third Row - Budget and Contact */}
+              
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
@@ -459,7 +459,7 @@ export default function RealEstatePage() {
                   </div>
                 </div>
 
-                {/* Message */}
+                
                 <div>
                   <label className="text-white text-sm font-medium block mb-3">
                     Message
@@ -471,7 +471,7 @@ export default function RealEstatePage() {
                   />
                 </div>
 
-                {/* Terms and Submit */}
+                
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex items-start space-x-3">
                     <Checkbox
