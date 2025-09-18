@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image"; // Import Image from next/image
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -14,7 +15,7 @@ import { Bath, Bed, Building, Phone } from "lucide-react";
 export default function RealEstatePage() {
   return (
     <div className="min-h-screen bg-gray-900">
-   
+      {/* Featured Properties Section */}
       <div className="bg-gray-900 px-6 py-16">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -34,14 +35,18 @@ export default function RealEstatePage() {
             </Button>
           </div>
 
+          {/* Property Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+            {/* Property Card 1 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2075&q=80"
                   alt="Seaside Serenity Villa"
+                  width={2075}
+                  height={600}
                   className="w-full h-48 object-cover"
+                  unoptimized // Use unoptimized for external images
                 />
               </div>
               <CardContent className="p-6">
@@ -81,13 +86,16 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
-       
+            {/* Property Card 2 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                   alt="Metropolitan Haven"
+                  width={2070}
+                  height={600}
                   className="w-full h-48 object-cover"
+                  unoptimized
                 />
               </div>
               <CardContent className="p-6">
@@ -118,7 +126,7 @@ export default function RealEstatePage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-gray-400 text-sm">Price</span>
-                    <div className="text-white font-bold text-2xl">$325,000</div> {/* Adjusted price for realism */}
+                    <div className="text-white font-bold text-2xl">$325,000</div>
                   </div>
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2">
                     View Property Details
@@ -127,12 +135,16 @@ export default function RealEstatePage() {
               </CardContent>
             </Card>
 
+            {/* Property Card 3 */}
             <Card className="bg-gray-800 border-gray-700 overflow-hidden">
               <div className="relative">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                   alt="Rustic Retreat Cottage"
+                  width={2070}
+                  height={600}
                   className="w-full h-48 object-cover"
+                  unoptimized
                 />
               </div>
               <CardContent className="p-6">
@@ -153,7 +165,7 @@ export default function RealEstatePage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Bath size={16} />
-                    <span>2.5-Bathroom</span> 
+                    <span>2.5-Bathroom</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Building size={16} />
@@ -175,26 +187,26 @@ export default function RealEstatePage() {
         </div>
       </div>
 
-     
+      {/* Let's Make it Happen Section */}
       <div className="bg-gray-900 px-6 py-16 border-t border-gray-700">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
             <h2 className="text-white text-4xl font-bold mb-4">
-              Let's Make it Happen
+              Let&apos;s Make it Happen
             </h2>
             <p className="text-gray-400 text-base max-w-3xl leading-relaxed">
               Ready to take the first step toward your dream property? Fill out
               the form below, and our real estate wizards will work their magic to
-              find your perfect match. Don't wait; let's embark on this exciting
-              journey together.
+              find your perfect match. Don&apos;t wait; let&apos;s embark on this
+              exciting journey together.
             </p>
           </div>
 
-        
+          {/* Form Card */}
           <Card className="bg-gray-800 border-gray-700 p-8">
             <CardContent className="p-0">
               <div className="space-y-8">
-               
+                {/* First Row - Personal Info */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
@@ -237,6 +249,8 @@ export default function RealEstatePage() {
                     />
                   </div>
                 </div>
+
+                {/* Second Row - Property Details */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
@@ -384,7 +398,7 @@ export default function RealEstatePage() {
                   </div>
                 </div>
 
-              
+                {/* Third Row - Budget and Contact */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="text-white text-sm font-medium block mb-3">
@@ -445,7 +459,7 @@ export default function RealEstatePage() {
                   </div>
                 </div>
 
-             
+                {/* Message */}
                 <div>
                   <label className="text-white text-sm font-medium block mb-3">
                     Message
@@ -457,7 +471,7 @@ export default function RealEstatePage() {
                   />
                 </div>
 
-           
+                {/* Terms and Submit */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex items-start space-x-3">
                     <Checkbox
